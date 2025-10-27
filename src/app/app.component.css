@@ -1,0 +1,34 @@
+/* Sidebar styles for the left import panel */
+div[style*="width: 22%"] {
+  background: #f8f9fa;
+  min-width: 220px;
+  padding: 22px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Space between file-importers and button */
+app-file-import {
+  margin-bottom: 28px;
+  width: 100%;
+  display: block;
+}
+
+button {
+  margin-top: 16px;
+  padding: 8px 18px;
+  border-radius: 5px;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+
+button:hover {
+  background: #0056b3;
+}

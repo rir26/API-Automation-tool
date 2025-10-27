@@ -1,0 +1,36 @@
+.file-import-container {
+  width: 100%;
+  padding: 16px;
+  background-color: #f8f9fa;
+  box-sizing: border-box;
+  border: none;
+}
+
+h3 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  color: #333;
+  font-size: 18px;
+}
+
+.file-input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.file-info {
+  margin-top: 10px;
+  padding: 8px;
+  background-color: #e9ecef;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.file-info p {
+  margin: 0;
+  color: #495057;
+}

@@ -1,0 +1,8 @@
+<div class="file-import-container">
+  <h3>File Import</h3>
+  <label>{{label}}</label>
+  <input type="file" (change)="onFileChange($event)">
+  <div *ngIf="selectedFile" class="file-info">
+    Selected: {{selectedFile}}
+  </div>
+</div>

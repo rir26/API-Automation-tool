@@ -1,0 +1,25 @@
+<div class="response-terminal">
+  <h3>Response Terminal</h3>
+  
+  <div class="terminal-content" *ngIf="response; else noResponse">
+    <div class="response-header">
+      <span class="status-badge" [class]="getStatusClass()">
+        Status: {{response.status || 'Unknown'}}
+      </span>
+      <span class="timestamp" *ngIf="response.timestamp">
+        {{response.timestamp | date:'medium'}}
+      </span>
+    </div>
+    
+    <div class="response-body">
+      <pre>{{response | json}}</pre>
+    </div>
+  </div>
+
+  <ng-template #noResponse>
+    <div class="no-response">
+      <p>No response yet.</p>
+      <p>Send a request to see results here.</p>
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,42 @@
+<div class="parameters-container">
+  <h3>Parameters</h3>
+  
+  <div class="form-row">
+    <input 
+      [(ngModel)]="apiUrl" 
+      placeholder="Enter API URL" 
+      class="url-input"
+      type="text" />
+    
+    <select [(ngModel)]="method" class="method-select">
+      <option value="GET">GET</option>
+      <option value="POST">POST</option>
+      <option value="PUT">PUT</option>
+      <option value="DELETE">DELETE</option>
+    </select>
+    
+    <button (click)="onSend()" class="send-button">Send</button>
+  </div>
+
+  <div class="form-group" *ngIf="method === 'POST' || method === 'PUT'">
+    <label>Request Body:</label>
+    <textarea 
+      [(ngModel)]="requestBody" 
+      placeholder="Enter request body (JSON)"
+      class="request-body">
+    </textarea>
+  </div>
+
+  <div class="form-group">
+    <label>Headers:</label>
+    <textarea 
+      [(ngModel)]="headers" 
+      placeholder="Enter headers (JSON format)"
+      class="headers-input">
+    </textarea>
+  </div>
+
+  <div *ngIf="fileContent" class="file-content">
+    <small>File loaded: {{fileContent?.length}} characters</small>
+  </div>
+</div>

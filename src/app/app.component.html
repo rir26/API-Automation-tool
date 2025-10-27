@@ -1,0 +1,16 @@
+<div style="display: flex; height: 100vh;">
+  <div style="width: 22%; border-right: 2px solid #333;">
+    <app-file-import 
+      label="Import Swagger/OpenAPI"
+      (fileImported)="onSwaggerImported($event)">
+    </app-file-import>
+    <app-file-import 
+      label="Import Parameters"
+      (fileImported)="onParamsImported($event)">
+    </app-file-import>
+    <button (click)="runTests()" style="margin-top:20px;">Run & Show Response</button>
+  </div>
+  <div style="flex:1;">
+    <app-response-terminal [response]="apiResponse"></app-response-terminal>
+  </div>
+</div>
