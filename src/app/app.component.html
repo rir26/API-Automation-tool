@@ -8,7 +8,10 @@
       label="Import Parameters"
       (fileImported)="onParamsImported($event)">
     </app-file-import>
-    <button (click)="runTests()" style="margin-top:20px;">Run & Show Response</button>
+    <div style="margin-top:20px; display:flex; gap:8px;">
+      <button (click)="runTests()">Run & Show Response</button>
+      <!-- <button (click)="fetchLogs()">Load Saved Logs</button> -->
+    </div>
   </div>
   <div style="flex:1;">
     <app-response-terminal [response]="apiResponse"></app-response-terminal>

@@ -23,22 +23,46 @@ export class AppComponent {
     this.paramsContent = content;
   }
 
-  runTests() {
-    let swagger = {};
-    let params = {};
+  async runTests() {
+    // Call backend /run-script, then always try to load the saved logs from /api/logs
     try {
-      swagger = JSON.parse(this.swaggerContent || '{}');
-    } catch { }
+      const runResp = await fetch('/run-script');
+      const runJson = await runResp.json();
+      const debugPaths = runJson?.debugPaths ?? null;
+
+      // After running, prefer loading the saved log file for consistent display
+      try {
+        const logsResp = await fetch('/api/logs');
+        if (logsResp.ok) {
+          const logsJson = await logsResp.json();
+          this.apiResponse = { log: logsJson, debugPaths, source: 'logFile' };
+          return;
+        }
+      } catch (_) {
+        // Ignore and fall back to runJson mapping below
+      }
+
+      // Fallback to whatever /run-script returned
+      if (runJson?.success && runJson?.source === 'logFile' && runJson?.log) {
+        this.apiResponse = { log: runJson.log, debugPaths, source: runJson.source };
+      } else if (runJson?.success && runJson?.stdout) {
+        this.apiResponse = { status: 'done', raw: runJson.stdout, debugPaths };
+      } else {
+        this.apiResponse = { payload: runJson, debugPaths };
+      }
+    } catch (err) {
+      this.apiResponse = { status: 'error', error: String(err) };
+    }
+  }
+
+  async fetchLogs() {
     try {
-      params = JSON.parse(this.paramsContent || '{}');
-    } catch { }
-    // Replace with real API logic. For now, just show confirmation:
-    this.apiResponse = {
-      status: "done",
-      message: "Tests completed",
-      swaggerReceived: !!this.swaggerContent,
-      paramsReceived: !!this.paramsContent,
-      results: { swagger, params }
-    };
+      const resp = await fetch('/api/logs');
+      if (!resp.ok) throw new Error(`Failed to fetch logs (${resp.status})`);
+      const json = await resp.json();
+      this.apiResponse = { log: json, debugPaths: null, source: 'logFile' };
+    } catch (err) {
+      this.apiResponse = { status: 'error', error: String(err) };
+    }
   }
 }

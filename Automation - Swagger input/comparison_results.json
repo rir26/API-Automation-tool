@@ -1,0 +1,27 @@
+﻿[
+    {
+        "url":  "https://dev-api.mavimcloud.com/feedback/v1/databases/d9c3aa32-aaa9-4804-820b-0c137a696dc9/feedback",
+        "path":  "/databases/{dbId}/feedback",
+        "success":  true,
+        "validations":  [
+                            "field_value PASS",
+                            "field_Count PASS",
+                            "Count positive PASS",
+                            "value array PASS",
+                            "array_items_value PASS"
+                        ],
+        "overall_result":  "PASS",
+        "error":  null
+    },
+    {
+        "url":  "https://dev-api.mavimcloud.com/feedback/v1/databases/d9c3aa32-aaa9-4804-820b-0c137a696dc9/feedback/count",
+        "path":  "/databases/{dbId}/feedback/count",
+        "success":  true,
+        "validations":  [
+                            "response positive PASS",
+                            "range PASS"
+                        ],
+        "overall_result":  "PASS",
+        "error":  null
+    }
+]

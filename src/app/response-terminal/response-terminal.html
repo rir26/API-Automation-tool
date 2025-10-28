@@ -2,17 +2,34 @@
   <h3>Response Terminal</h3>
   
   <div class="terminal-content" *ngIf="response; else noResponse">
-    <div class="response-header">
-      <span class="status-badge" [class]="getStatusClass()">
-        Status: {{response.status || 'Unknown'}}
-      </span>
-      <span class="timestamp" *ngIf="response.timestamp">
-        {{response.timestamp | date:'medium'}}
-      </span>
-    </div>
     
     <div class="response-body">
-      <pre>{{response | json}}</pre>
+      <!-- If the server returned a parsed log (get_api_logs.json), render entries nicely -->
+      <div *ngIf="hasLog(); else rawJson">
+        <h4>API Log Entries</h4>
+        <div class="log-entry" *ngFor="let e of getLogEntries(); let i = index">
+          <div class="log-entry-header">
+            <strong>Entry {{i + 1}}:</strong>
+            <span class="endpoint">{{e.endpoint || e.url || '—'}}</span>
+            <span class="result" [class.success]="e.success" [class.fail]="!e.success">
+              {{ e.success ? 'Success' : 'Failed' }}
+            </span>
+          </div>
+          <div class="log-entry-body">
+            <p *ngIf="e.validation_passed !== undefined"><strong>Validation:</strong> {{ e.validation_passed ? 'Passed' : 'Failed' }}</p>
+            <p *ngIf="e.error"><strong>Error:</strong> {{e.error}}</p>
+            <p *ngIf="e.response">
+              <strong>Response:</strong>
+            </p>
+            <pre>{{ e.response | json }}</pre>
+          </div>
+          <hr />
+        </div>
+      </div>
+
+      <ng-template #rawJson>
+        <pre>{{response | json}}</pre>
+      </ng-template>
     </div>
   </div>
 

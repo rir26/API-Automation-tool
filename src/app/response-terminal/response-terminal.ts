@@ -19,4 +19,18 @@ export class ResponseTerminalComponent {
     if (status >= 400) return 'status-error';
     return 'status-default';
   }
+
+  hasLog(): boolean {
+    return !!(this.response && (this.response.log || this.response.payload?.log || this.response?.log));
+  }
+
+  getLogEntries(): any[] {
+    const maybeLog = this.response?.log ?? this.response?.payload?.log ?? this.response;
+    if (!maybeLog) return [];
+    // If the log is directly the parsed file (object or array), normalize to array
+    if (Array.isArray(maybeLog)) return maybeLog;
+    if (maybeLog.entries && Array.isArray(maybeLog.entries)) return maybeLog.entries;
+    if (typeof maybeLog === 'object') return [maybeLog];
+    return [];
+  }
 }

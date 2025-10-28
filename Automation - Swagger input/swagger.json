@@ -1,0 +1,160 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Mavim iMprove APIs",
+    "description": "The Feedback API allows users to post and retrieve feedback for a topic",
+    "version": "v1",
+    "contact": {
+      "name": "Mavim Servicedesk",
+      "url": "https://my.mavim.com",
+      "email": "servicedesk@mavim.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://dev-api.mavimcloud.com/feedback/v1"
+    }
+  ],
+  "paths": {
+    "/databases/{dbId}/feedback": {
+      "get": {
+        "tags": ["Feedback"],
+        "summary": "Get feedback",
+        "description": "Get topic feedback for a user or all topic feedback for an admin. Optional pagination query parameters supported.",
+        "parameters": [
+          {
+            "name": "dbId",
+            "in": "path",
+            "required": true,
+            "description": "The database ID of the topic containing the feedback",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "topicId",
+            "in": "body",
+            "required": false,
+            "description": "The ID of the topic",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "index",
+            "in": "query",
+            "required": false,
+            "description": "Page number for pagination",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "range",
+            "in": "query",
+            "required": false,
+            "description": "Page size for pagination",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IFeedback"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid topic ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Feedback not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/databases/{dbId}/feedback/count": {
+      "get": {
+        "tags": ["Feedback"],
+        "summary": "Get feedback count",
+        "description": "Get feedback count created by the requesting user filtered by topic Id if provided. If the requesting user is an admin, get feedback count created by all users filtered by topic Id if provided.",
+        "parameters": [
+          {
+            "name": "dbId",
+            "in": "query",
+            "description": "The database Id of the topic containing the feedback",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "topicId",
+            "in": "query",
+            "description": "The Id of the topic containing the feedback",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid topic Id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "IFeedback": {
+        "type": "object",
+        "properties": {
+          "feedbackId": { "type": "string" },
+          "topicId": { "type": "string" },
+          "userId": { "type": "string" },
+          "comments": { "type": "string" },
+          "createdAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": { "type": "string" },
+          "message": { "type": "string" }
+        }
+      }
+    }
+  }
+}

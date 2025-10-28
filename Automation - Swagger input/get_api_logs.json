@@ -1,0 +1,238 @@
+﻿[
+    {
+        "validation_failures":  [
+
+                                ],
+        "url":  "https://dev-api.mavimcloud.com/feedback/v1/databases/d9c3aa32-aaa9-4804-820b-0c137a696dc9/feedback",
+        "validation_passed":  true,
+        "success":  true,
+        "error":  null,
+        "endpoint":  "/databases/{dbId}/feedback",
+        "response":  {
+                         "value":  [
+                                       {
+                                           "id":  "1ca77010-a400-4cdc-b7d2-3c07d1494b8d",
+                                           "databaseId":  "d9c3aa32-aaa9-4804-820b-0c137a696dc9",
+                                           "companyId":  "0df583b2-2faf-48a4-9425-56a6327a0da9",
+                                           "topicId":  "d16730231c39768v9222",
+                                           "userId":  "1ab07c03-6fe1-4023-abac-cafbfec90cd3",
+                                           "message":  "sample",
+                                           "created":  "2025-10-10T18:11:27.4266413",
+                                           "lastUpdated":  "2025-10-10T18:11:27.4266414",
+                                           "changedBy":  "1ab07c03-6fe1-4023-abac-cafbfec90cd3",
+                                           "comments":  [
+
+                                                        ]
+                                       },
+                                       {
+                                           "id":  "6cb5f16c-0393-4f7b-a7db-d2e585d12b22",
+                                           "databaseId":  "d9c3aa32-aaa9-4804-820b-0c137a696dc9",
+                                           "companyId":  "0df583b2-2faf-48a4-9425-56a6327a0da9",
+                                           "topicId":  "d16730231c117965v0",
+                                           "userId":  "c519515c-8ac9-4ee8-854f-813d2f9100f0",
+                                           "message":  "f",
+                                           "created":  "2025-10-03T11:45:50.0789911",
+                                           "lastUpdated":  "2025-10-03T11:45:50.0789912",
+                                           "changedBy":  "c519515c-8ac9-4ee8-854f-813d2f9100f0",
+                                           "comments":  [
+
+                                                        ]
+                                       },
+                                       {
+                                           "id":  "ec7f3b68-1667-47f5-8e8d-61bc286c1a3a",
+                                           "databaseId":  "d9c3aa32-aaa9-4804-820b-0c137a696dc9",
+                                           "companyId":  "0df583b2-2faf-48a4-9425-56a6327a0da9",
+                                           "topicId":  "d16730231c215379v0",
+                                           "userId":  "c519515c-8ac9-4ee8-854f-813d2f9100f0",
+                                           "message":  "d",
+                                           "created":  "2025-08-20T16:46:30.1101085",
+                                           "lastUpdated":  "2025-08-20T16:46:30.1101086",
+                                           "changedBy":  "c519515c-8ac9-4ee8-854f-813d2f9100f0",
+                                           "comments":  [
+
+                                                        ]
+                                       },
+                                       {
+                                           "id":  "0ce540e8-f835-4a4c-bb1a-d50405d80b77",
+                                           "databaseId":  "d9c3aa32-aaa9-4804-820b-0c137a696dc9",
+                                           "companyId":  "0df583b2-2faf-48a4-9425-56a6327a0da9",
+                                           "topicId":  "d16730231c215379v0",
+                                           "userId":  "c519515c-8ac9-4ee8-854f-813d2f9100f0",
+                                           "message":  "feedback2",
+                                           "created":  "2025-08-19T15:58:14.8582226",
+                                           "lastUpdated":  "2025-08-19T15:58:14.8582226",
+                                           "changedBy":  "c519515c-8ac9-4ee8-854f-813d2f9100f0",
+                                           "comments":  [
+
+                                                        ]
+                                       },
+                                       {
+                                           "id":  "003a34d3-5d4d-4e20-8eb9-c2ec0b4316ef",
+                                           "databaseId":  "d9c3aa32-aaa9-4804-820b-0c137a696dc9",
+                                           "companyId":  "0df583b2-2faf-48a4-9425-56a6327a0da9",
+                                           "topicId":  "d16730231c215379v0",
+                                           "userId":  "c519515c-8ac9-4ee8-854f-813d2f9100f0",
+                                           "message":  "feedback",
+                                           "created":  "2025-08-19T15:58:05.7754495",
+                                           "lastUpdated":  "2025-08-19T15:58:05.7754495",
+                                           "changedBy":  "c519515c-8ac9-4ee8-854f-813d2f9100f0",
+                                           "comments":  [
+
+                                                        ]
+                                       },
+                                       {
+                                           "id":  "4a6c465f-1f85-45c5-a0f8-cdefd77a1dcc",
+                                           "databaseId":  "d9c3aa32-aaa9-4804-820b-0c137a696dc9",
+                                           "companyId":  "0df583b2-2faf-48a4-9425-56a6327a0da9",
+                                           "topicId":  "d16730231c1v0",
+                                           "userId":  "c519515c-8ac9-4ee8-854f-813d2f9100f0",
+                                           "message":  "feedback",
+                                           "created":  "2025-08-19T15:57:22.9263552",
+                                           "lastUpdated":  "2025-08-19T15:57:22.9263552",
+                                           "changedBy":  "c519515c-8ac9-4ee8-854f-813d2f9100f0",
+                                           "comments":  [
+
+                                                        ]
+                                       },
+                                       {
+                                           "id":  "22a0cbfd-3e10-4ece-a104-a98548553856",
+                                           "databaseId":  "d9c3aa32-aaa9-4804-820b-0c137a696dc9",
+                                           "companyId":  "0df583b2-2faf-48a4-9425-56a6327a0da9",
+                                           "topicId":  "d16730231c215369v0",
+                                           "userId":  "99b4a7e1-f569-46c4-89f8-75414a0c3dad",
+                                           "message":  "testing v2",
+                                           "created":  "2025-08-04T10:49:39.8683092",
+                                           "lastUpdated":  "2025-08-04T10:49:39.8683093",
+                                           "changedBy":  "99b4a7e1-f569-46c4-89f8-75414a0c3dad",
+                                           "comments":  [
+
+                                                        ]
+                                       },
+                                       {
+                                           "id":  "c2f2c2e5-cd9b-4f9c-a4c4-6ce896a8e082",
+                                           "databaseId":  "d9c3aa32-aaa9-4804-820b-0c137a696dc9",
+                                           "companyId":  "0df583b2-2faf-48a4-9425-56a6327a0da9",
+                                           "topicId":  "d16730231c215361v0",
+                                           "userId":  "30972e04-9798-4ad1-8e25-c197093c9f26",
+                                           "message":  "testing this ",
+                                           "created":  "2025-07-24T12:22:06.3462137",
+                                           "lastUpdated":  "2025-07-24T12:22:06.3462138",
+                                           "changedBy":  "30972e04-9798-4ad1-8e25-c197093c9f26",
+                                           "comments":  [
+
+                                                        ]
+                                       },
+                                       {
+                                           "id":  "dc3e16c4-328b-4a19-b250-4a4937e88928",
+                                           "databaseId":  "d9c3aa32-aaa9-4804-820b-0c137a696dc9",
+                                           "companyId":  "0df583b2-2faf-48a4-9425-56a6327a0da9",
+                                           "topicId":  "d16730231c215364v0",
+                                           "userId":  "30972e04-9798-4ad1-8e25-c197093c9f26",
+                                           "message":  "Test feedback",
+                                           "created":  "2025-07-16T12:18:36.7602967",
+                                           "lastUpdated":  "2025-07-16T12:18:36.7602967",
+                                           "changedBy":  "30972e04-9798-4ad1-8e25-c197093c9f26",
+                                           "comments":  [
+
+                                                        ]
+                                       },
+                                       {
+                                           "id":  "44151dd8-3222-4d1f-89a3-47db38ac2cd7",
+                                           "databaseId":  "d9c3aa32-aaa9-4804-820b-0c137a696dc9",
+                                           "companyId":  "0df583b2-2faf-48a4-9425-56a6327a0da9",
+                                           "topicId":  "d16730231c145378v0",
+                                           "userId":  "e081c6b6-edc2-4351-8b0a-10fd08d7a567",
+                                           "message":  "rfdc",
+                                           "created":  "2025-07-15T11:14:17.688516",
+                                           "lastUpdated":  "2025-07-15T11:14:17.6885162",
+                                           "changedBy":  "e081c6b6-edc2-4351-8b0a-10fd08d7a567",
+                                           "comments":  [
+
+                                                        ]
+                                       },
+                                       {
+                                           "id":  "65fa1f81-2214-4f07-90d6-2bc57ead0342",
+                                           "databaseId":  "d9c3aa32-aaa9-4804-820b-0c137a696dc9",
+                                           "companyId":  "0df583b2-2faf-48a4-9425-56a6327a0da9",
+                                           "topicId":  "d0c3v0",
+                                           "userId":  "e081c6b6-edc2-4351-8b0a-10fd08d7a567",
+                                           "message":  "tgrf",
+                                           "created":  "2025-07-15T11:13:50.7685598",
+                                           "lastUpdated":  "2025-07-15T11:13:50.7685598",
+                                           "changedBy":  "e081c6b6-edc2-4351-8b0a-10fd08d7a567",
+                                           "comments":  [
+
+                                                        ]
+                                       },
+                                       {
+                                           "id":  "fcee5cb8-6095-4cbe-a597-4e9881a60bee",
+                                           "databaseId":  "d9c3aa32-aaa9-4804-820b-0c137a696dc9",
+                                           "companyId":  "0df583b2-2faf-48a4-9425-56a6327a0da9",
+                                           "topicId":  "d16730231c215360v0",
+                                           "userId":  "e081c6b6-edc2-4351-8b0a-10fd08d7a567",
+                                           "message":  "test",
+                                           "created":  "2025-07-10T04:33:22.5989481",
+                                           "lastUpdated":  "2025-07-10T04:33:22.5989481",
+                                           "changedBy":  "e081c6b6-edc2-4351-8b0a-10fd08d7a567",
+                                           "comments":  [
+
+                                                        ]
+                                       },
+                                       {
+                                           "id":  "a1f690a8-023d-46da-bfed-7c1c5da40d4e",
+                                           "databaseId":  "d9c3aa32-aaa9-4804-820b-0c137a696dc9",
+                                           "companyId":  "0df583b2-2faf-48a4-9425-56a6327a0da9",
+                                           "topicId":  "d16730231c24017v0",
+                                           "userId":  "e081c6b6-edc2-4351-8b0a-10fd08d7a567",
+                                           "message":  "test",
+                                           "created":  "2025-07-10T04:18:38.8048532",
+                                           "lastUpdated":  "2025-07-10T04:18:38.8048532",
+                                           "changedBy":  "e081c6b6-edc2-4351-8b0a-10fd08d7a567",
+                                           "comments":  [
+
+                                                        ]
+                                       },
+                                       {
+                                           "id":  "8c099f00-29df-4a76-961e-6528d3be894c",
+                                           "databaseId":  "d9c3aa32-aaa9-4804-820b-0c137a696dc9",
+                                           "companyId":  "0df583b2-2faf-48a4-9425-56a6327a0da9",
+                                           "topicId":  "d16730231c24017v0",
+                                           "userId":  "be214a01-b8a2-4298-b91d-7e36d2d2c93d",
+                                           "message":  "aaaaaaa",
+                                           "created":  "2025-06-18T11:59:34.56097",
+                                           "lastUpdated":  "2025-06-18T11:59:34.5609701",
+                                           "changedBy":  "be214a01-b8a2-4298-b91d-7e36d2d2c93d",
+                                           "comments":  [
+
+                                                        ]
+                                       },
+                                       {
+                                           "id":  "0c81484f-5022-42ff-835c-fa66d0129e58",
+                                           "databaseId":  "d9c3aa32-aaa9-4804-820b-0c137a696dc9",
+                                           "companyId":  "0df583b2-2faf-48a4-9425-56a6327a0da9",
+                                           "topicId":  "d16730231c141527v0",
+                                           "userId":  "4462eeb0-c915-4e54-9e7d-6f646d26f1e6",
+                                           "message":  "tesr",
+                                           "created":  "2025-05-05T11:31:23.831651",
+                                           "lastUpdated":  "2025-05-05T11:31:23.8316511",
+                                           "changedBy":  "4462eeb0-c915-4e54-9e7d-6f646d26f1e6",
+                                           "comments":  [
+
+                                                        ]
+                                       }
+                                   ],
+                         "Count":  15
+                     }
+    },
+    {
+        "validation_failures":  [
+
+                                ],
+        "url":  "https://dev-api.mavimcloud.com/feedback/v1/databases/d9c3aa32-aaa9-4804-820b-0c137a696dc9/feedback/count?dbId=d9c3aa32-aaa9-4804-820b-0c137a696dc9\u0026topicId=d16730231c117965v0",
+        "validation_passed":  true,
+        "success":  true,
+        "error":  null,
+        "endpoint":  "/databases/{dbId}/feedback/count",
+        "response":  1
+    }
+]
