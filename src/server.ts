@@ -15,6 +15,9 @@ const browserDistFolder = join(import.meta.dirname, '../browser');
 const app = express();
 const angularApp = new AngularNodeAppEngine();
 
+// Parse JSON bodies for POST endpoints
+app.use(express.json({ limit: '5mb' }));
+
 // Helper: resolve candidate paths for script and input files
 // Resolve candidate paths from several roots so we don't accidentally pick a build-time
 // virtual directory (like .angular/vite-root). Prefer project root (process.cwd()),
@@ -177,6 +180,128 @@ app.get('/run-script', async (req, res) => {
     return res.json({ success: true, source: 'stdout', stdout, rawStderr: stderr, debugPaths: { scriptPath, swaggerPath, parametersPath, logOutput } });
   } catch (err) {
     console.error('Unexpected error in /run-script', err);
+    return res.status(500).json({ error: String(err) });
+  }
+});
+
+// POST variant that accepts uploaded swagger/parameters content, validates and writes them,
+// then runs the PowerShell script with those inputs.
+app.post('/run-script', async (req, res) => {
+  try {
+    const swaggerPathQuery = (req.query['swaggerPath'] as string) || process.env['SWAGGER_PATH'];
+    const parametersPathQuery = (req.query['parametersPath'] as string) || process.env['PARAMETERS_PATH'];
+    const logOutputQuery = (req.query['logOutput'] as string) || process.env['LOG_OUTPUT'];
+
+    const defaultScript = String.raw`C:\tool task\API-Automation-tool\Automation - Swagger input\callapi.ps1`;
+    const defaultSwagger = String.raw`C:\tool task\API-Automation-tool\Automation - Swagger input\swagger.json`;
+    const defaultParameters = String.raw`C:\tool task\API-Automation-tool\Automation - Swagger input\overrides.json`;
+    const defaultLogOutput = String.raw`C:\tool task\API-Automation-tool\Automation - Swagger input\get_api_logs.json`;
+
+    const scriptPath = defaultScript;
+    const swaggerPath = swaggerPathQuery || defaultSwagger;
+    const parametersPath = parametersPathQuery || defaultParameters;
+    const logOutput = logOutputQuery || defaultLogOutput;
+
+    // Validate and write incoming contents if provided
+    const swaggerContent: unknown = req.body?.swaggerContent;
+    const paramsContent: unknown = req.body?.paramsContent;
+
+    if (typeof swaggerContent === 'string') {
+      // Ensure JSON is valid
+      try { JSON.parse(swaggerContent); } catch (e) { return res.status(400).json({ error: 'Invalid Swagger JSON', details: String(e) }); }
+      await fsPromises.writeFile(swaggerPath, swaggerContent, 'utf-8');
+    }
+
+    if (typeof paramsContent === 'string') {
+      // Ensure JSON is valid (fail fast if not) and is an object map
+      let parsed: any;
+      try { parsed = JSON.parse(paramsContent); } catch (e) { return res.status(400).json({ error: 'Invalid Parameters JSON', details: String(e) }); }
+      if (parsed === null || Array.isArray(parsed) || typeof parsed !== 'object') {
+        return res.status(400).json({ error: 'Parameters must be a JSON object of key/value pairs.' });
+      }
+      await fsPromises.writeFile(parametersPath, JSON.stringify(parsed, null, 2), 'utf-8');
+    }
+
+    if (!fs.existsSync(scriptPath)) {
+      return res.status(404).json({ error: `Script not found at ${scriptPath}` });
+    }
+
+    const psExecutable = process.platform === 'win32' ? 'powershell.exe' : 'pwsh';
+    const args = ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', scriptPath, swaggerPath, parametersPath, logOutput];
+    const automationDir = dirname(scriptPath);
+
+    const incomingAuth = (req.headers['x-bearer-token'] as string | undefined) || (req.headers['authorization'] as string | undefined);
+    let bearerForEnv: string | undefined = undefined;
+    if (incomingAuth && typeof incomingAuth === 'string' && incomingAuth.trim().length > 0) {
+      bearerForEnv = incomingAuth.startsWith('Bearer ') ? incomingAuth : `Bearer ${incomingAuth}`;
+    }
+
+    const execResult = await new Promise<{ stdout: string; stderr: string; error: any }>((resolve) => {
+      const env = { ...process.env } as NodeJS.ProcessEnv;
+      if (bearerForEnv) env['API_BEARER_TOKEN'] = bearerForEnv;
+      execFile(psExecutable, args, { windowsHide: true, timeout: 5 * 60 * 1000, cwd: automationDir, env }, (error, so, se) => {
+        resolve({ stdout: so ?? '', stderr: se ?? '', error });
+      });
+    });
+
+    const stdout = execResult.stdout;
+    const stderr = execResult.stderr;
+    const execError: any = execResult.error;
+
+    if (stderr?.trim()) {
+      console.error('PowerShell stderr:', stderr);
+    }
+
+    if (fs.existsSync(logOutput)) {
+      try {
+        const text = await fsPromises.readFile(logOutput, 'utf-8');
+        try {
+          const json = JSON.parse(text);
+          return res.json({
+            success: true,
+            source: 'logFile',
+            log: json,
+            rawStdout: stdout,
+            rawStderr: stderr,
+            scriptExit: execError ? { code: execError.code ?? 1, message: String(execError) } : { code: 0 },
+            debugPaths: { scriptPath, swaggerPath, parametersPath, logOutput },
+          });
+        } catch (e) {
+          return res.json({
+            success: true,
+            source: 'logFile',
+            logText: text,
+            rawStdout: stdout,
+            rawStderr: stderr,
+            scriptExit: execError ? { code: execError.code ?? 1, message: String(execError) } : { code: 0 },
+            debugPaths: { scriptPath, swaggerPath, parametersPath, logOutput },
+          });
+        }
+      } catch (e) {
+        return res.status(500).json({
+          error: 'Failed to read output file',
+          details: String(e),
+          rawStdout: stdout,
+          rawStderr: stderr,
+          scriptExit: execError ? { code: execError.code ?? 1, message: String(execError) } : { code: 0 },
+          debugPaths: { scriptPath, swaggerPath, parametersPath, logOutput },
+        });
+      }
+    }
+
+    if (execError) {
+      return res.status(500).json({
+        error: String(execError),
+        rawStdout: stdout,
+        rawStderr: stderr,
+        scriptExit: { code: execError.code ?? 1 },
+        debugPaths: { scriptPath, swaggerPath, parametersPath, logOutput },
+      });
+    }
+
+    return res.json({ success: true, source: 'stdout', stdout, rawStderr: stderr, debugPaths: { scriptPath, swaggerPath, parametersPath, logOutput } });
+  } catch (err) {
+    console.error('Unexpected error in POST /run-script', err);
     return res.status(500).json({ error: String(err) });
   }
 });

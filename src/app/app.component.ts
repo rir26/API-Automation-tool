@@ -28,12 +28,20 @@ export class AppComponent {
   async runTests() {
     // Call backend /run-script, then always try to load the saved logs from /api/logs
     try {
-      const headers: Record<string, string> = { };
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' };
       if (this.bearerToken && this.bearerToken.trim().length > 0) {
         headers['X-Bearer-Token'] = this.bearerToken.trim();
       }
-      const runResp = await fetch('/run-script', { cache: 'no-store', headers });
+      const payload = {
+        swaggerContent: this.swaggerContent ?? undefined,
+        paramsContent: this.paramsContent ?? undefined,
+      };
+      const runResp = await fetch('/run-script', { method: 'POST', cache: 'no-store', headers, body: JSON.stringify(payload) });
       const runJson = await runResp.json();
+      if (!runResp.ok) {
+        this.apiResponse = { status: 'error', error: runJson?.error || 'Run failed', details: runJson };
+        return;
+      }
       const debugPaths = runJson?.debugPaths ?? null;
 
       // After running, prefer loading the saved log file for consistent display
