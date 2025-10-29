@@ -8,9 +8,18 @@
       label="Import Parameters"
       (fileImported)="onParamsImported($event)">
     </app-file-import>
-    <div style="margin-top:20px; display:flex; gap:8px;">
-      <button (click)="runTests()">Run & Show Response</button>
-      <!-- <button (click)="fetchLogs()">Load Saved Logs</button> -->
+    <div style="margin-top:20px; display:flex; gap:8px; align-items:center;">
+      <button
+        (click)="runTests()"
+        [disabled]="!swaggerContent || !paramsContent"
+        [attr.aria-disabled]="(!swaggerContent || !paramsContent) ? true : null"
+        [title]="(!swaggerContent || !paramsContent) ? 'Please upload both Swagger and Parameters files to enable this action' : ''">
+        Run & Show Response
+      </button>
+      
+      <span *ngIf="!swaggerContent || !paramsContent" style="color:#888; font-size:12px;">
+        Upload required files to enable the Run button
+      </span>
     </div>
   </div>
   <div style="flex:1;">

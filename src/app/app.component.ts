@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FileImportComponent } from './file-import/file-import';
 import { ResponseTerminalComponent } from './response-terminal/response-terminal';
-import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [FileImportComponent, ResponseTerminalComponent, RouterOutlet],
+  imports: [CommonModule, FileImportComponent, ResponseTerminalComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -38,8 +38,8 @@ export class AppComponent {
           this.apiResponse = { log: logsJson, debugPaths, source: 'logFile' };
           return;
         }
-      } catch (_) {
-        // Ignore and fall back to runJson mapping below
+      } catch (e) {
+        console.debug('logs fetch failed; falling back to runJson', e);
       }
 
       // Fallback to whatever /run-script returned
