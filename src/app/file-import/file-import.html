@@ -5,4 +5,7 @@
   <div *ngIf="selectedFile" class="file-info">
     Selected: {{selectedFile}}
   </div>
+  <div *ngIf="validationError" style="color:#b00020; font-size:12px; margin-top:6px;">
+    {{validationError}}
+  </div>
 </div>

@@ -2,6 +2,8 @@
   <div style="width: 22%; border-right: 2px solid #333;">
     <app-file-import 
       label="Import Swagger/OpenAPI"
+      [requiredBasename]="'swagger'"
+      [validationMessage]="'File must be a valid swagger definition'"
       (fileImported)="onSwaggerImported($event)">
     </app-file-import>
     <app-file-import 
