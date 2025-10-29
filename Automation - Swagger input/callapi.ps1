@@ -8,7 +8,7 @@ $logFile      = "get_api_logs.json"     # per-call log
 $overrideFile = "overrides.json"        # optional  { "dbId": "real-guid", ... }
 
 # Supply a JWT here or export it first:  $env:API_BEARER_TOKEN = "<token>"
-$bearerToken  = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6InlFVXdtWFdMMTA3Q2MtN1FaMldTYmVPYjNzUSJ9.eyJhdWQiOiI4MWE0OGEwMC1hZTFhLTQ2ZDYtYmYxZS0yMjZmZmU2MDczYmMiLCJpc3MiOiJodHRwczovL2xvZ2luLm1pY3Jvc29mdG9ubGluZS5jb20vMDY5YWU2YmMtMWI3Yy00YWJmLWJkODktODQ2MGYwNDNhOTRkL3YyLjAiLCJpYXQiOjE3NjE2NTIzMzksIm5iZiI6MTc2MTY1MjMzOSwiZXhwIjoxNzYxNjU3MjE2LCJhaW8iOiJBUVFCKy80YUFBQUFDN0JLTVcrYU8xZ29QZ0d4dU5TbTlSQnVOcGR0b0RhcXRPeVlzOHJ3N20vU3c5VCtDdGtyMks1UVlGajNHMDBRTXZneUNUQUY5UXljdGRyQ3JxRXhKY0FPanBhTHFLWE9TN2VOcFBuL25pbWxmaTNwOTZvMWRPNUdZTE1yZE5aU3V2ZkhSS0I4U01xdW0yZUcwbkhDQmZOVVdFQzEvT05vbDBHS1NEY3o2WUJLMHZPamRta2FWN0VTWVMwWmNTS2gwMDZhZStnRjZWME5GcDVNcHRIU0tQdDRoREhaQlN4YlJ5SVRsK1VDOWQ0UGhtQXlhVFZCNXd4eERyMEpTZVRVUE1MSW10VXlJR2NlMElyemZOclNCQ2tQSkFlNkY1ME8wbEdoSm14Um0xdnFOVWRKSHgwZk5mV3NqRHdoYlM0UXRDSTErTnF0emNIRmUrR0IwWkJPR2c9PSIsImF6cCI6IjgxYTQ4YTAwLWFlMWEtNDZkNi1iZjFlLTIyNmZmZTYwNzNiYyIsImF6cGFjciI6IjAiLCJlbWFpbCI6InNoYWZhdC5odXNzYWluQG1hdmltLmNvbSIsImxvZ2luX2hpbnQiOiJPLkNpUTFObUZrTkRReVl5MHdOak13TFRSalpXVXRZalU1TVMxbFpXVXdOekZqTWpVeE9EUVNKREEyT1dGbE5tSmpMVEZpTjJNdE5HRmlaaTFpWkRnNUxUZzBOakJtTURRellUazBaQm9OYzJoMVFHMWhkbWx0TG1OdmJTRFpBUT09IiwibmFtZSI6IlNoYWZhdCBIdXNzYWluIiwib2lkIjoiNTZhZDQ0MmMtMDYzMC00Y2VlLWI1OTEtZWVlMDcxYzI1MTg0IiwicHJlZmVycmVkX3VzZXJuYW1lIjoic2h1QG1hdmltLmNvbSIsInJoIjoiMS5BVjRBdk9hYUJud2J2MHE5aVlSZzhFT3BUUUNLcElFYXJ0Wkd2eDRpYl81Z2M3d1JBWTFlQUEuIiwic2NwIjoiTWF2aW0uaU1wcm92ZS5SZWFkV3JpdGUuQWxsIiwic2lkIjoiMDA5OWFmZDktZThlNy0yOWRmLTQzMzMtMWQyODA4ODQ2MDg1Iiwic3ViIjoiaVdON1lqM2l6a0owNmFyaHl6cjV0X2hRelVUb1hYYUtHaW5RN1pIVVZ6ZyIsInRpZCI6IjA2OWFlNmJjLTFiN2MtNGFiZi1iZDg5LTg0NjBmMDQzYTk0ZCIsInV0aSI6Im5IcVlUY0FoblVHODQ5TWJCNGE5QUEiLCJ2ZXIiOiIyLjAiLCJ4bXNfZnRkIjoielMxQmxLeE9SSy1vTlVaVDlzUmRVTUVZNVVpSGFFalNkUFdpREczSDZsZ0JjM2RsWkdWdVl5MWtjMjF6In0.W-6rUzB7h6DGBeLKH57zvkUtr8wOPll8yv6i3LxkiBL22ai9Fr-ldlTe7kvSXCpNUYA2u5hpfGZLIkljmy_LN4d8tgGxEXaobhJ7kHy14W4gU4iIAQw5Ws58OrpIhJxixEsfiWCRllGyXfrBKYUtCH43nfomuLtvtgEsZhNY2GNwtW1ayu7EHJdqm9EZyyuzN8HacWvp014uCXvj2hTf4zYKFblBZXTMuf6OK_3wQULWENrFmyDK7AtebcKrbeGSoMs-b5KoMflZi2f2OImei4TXQ0fWz2o-dZ7gHW92xWas55_2imQH4SsPyIVARjx_VJ1Dr3N5G5iyf_f0Gaq23g"
+$bearerToken  = ""
 # $bearerToken = "Bearer <PASTE-YOUR-TOKEN-HERE>"
 
 # ─── LOAD SPEC & PREPARE ─────────────────────────────────────────────────────
@@ -16,7 +16,15 @@ if (-not (Test-Path $swaggerFile)) { throw "Cannot find $swaggerFile" }
 $swagger = Get-Content $swaggerFile -Raw | ConvertFrom-Json
 $baseUrl = $swagger.servers[0].url.TrimEnd('/')
 
-$headers = @{ Authorization = $bearerToken; Accept = "application/json" }
+# Prefer bearer token provided via environment variable if present
+if ($env:API_BEARER_TOKEN) {
+    if ($env:API_BEARER_TOKEN -like 'Bearer *') { $bearerToken = $env:API_BEARER_TOKEN }
+    else { $bearerToken = "Bearer $($env:API_BEARER_TOKEN)" }
+}
+
+$headers = @{}
+if ($bearerToken) { $headers["Authorization"] = $bearerToken }
+$headers["Accept"] = "application/json"
 
 $overrides = @{}
 if (Test-Path $overrideFile) {

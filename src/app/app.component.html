@@ -8,6 +8,11 @@
       label="Import Parameters"
       (fileImported)="onParamsImported($event)">
     </app-file-import>
+    <div style="margin-top:12px; display:flex; flex-direction:column; gap:6px;">
+      <label for="bearerInput" style="font-weight:600;">Bearer token</label>
+      <input id="bearerInput" type="password" [(ngModel)]="bearerToken" placeholder="Paste bearer token"/>
+      <small style="color:#777;">We never store this token; it's used only for this run.</small>
+    </div>
     <div style="margin-top:20px; display:flex; gap:8px; align-items:center;">
       <button
         (click)="runTests()"

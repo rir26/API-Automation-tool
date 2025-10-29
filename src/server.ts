@@ -100,8 +100,17 @@ app.get('/run-script', async (req, res) => {
     let stdout = '';
     let stderr = '';
     let execError: any = null;
+    // Accept bearer token from client via header and pass to PowerShell through env var
+    const incomingAuth = (req.headers['x-bearer-token'] as string | undefined) || (req.headers['authorization'] as string | undefined);
+    let bearerForEnv: string | undefined = undefined;
+    if (incomingAuth && typeof incomingAuth === 'string' && incomingAuth.trim().length > 0) {
+      bearerForEnv = incomingAuth.startsWith('Bearer ') ? incomingAuth : `Bearer ${incomingAuth}`;
+    }
+
     const execResult = await new Promise<{ stdout: string; stderr: string; error: any }>((resolve) => {
-      execFile(psExecutable, args, { windowsHide: true, timeout: 5 * 60 * 1000, cwd: automationDir }, (error, so, se) => {
+      const env = { ...process.env } as NodeJS.ProcessEnv;
+      if (bearerForEnv) env['API_BEARER_TOKEN'] = bearerForEnv;
+      execFile(psExecutable, args, { windowsHide: true, timeout: 5 * 60 * 1000, cwd: automationDir, env }, (error, so, se) => {
         resolve({ stdout: so ?? '', stderr: se ?? '', error });
       });
     });

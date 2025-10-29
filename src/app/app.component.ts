@@ -1,16 +1,18 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { FileImportComponent } from './file-import/file-import';
 import { ResponseTerminalComponent } from './response-terminal/response-terminal';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FileImportComponent, ResponseTerminalComponent],
+  imports: [CommonModule, FormsModule, FileImportComponent, ResponseTerminalComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  bearerToken: string = '';
   swaggerContent?: string;
   paramsContent?: string;
   apiResponse?: any;
@@ -26,7 +28,11 @@ export class AppComponent {
   async runTests() {
     // Call backend /run-script, then always try to load the saved logs from /api/logs
     try {
-      const runResp = await fetch('/run-script');
+      const headers: Record<string, string> = { };
+      if (this.bearerToken && this.bearerToken.trim().length > 0) {
+        headers['X-Bearer-Token'] = this.bearerToken.trim();
+      }
+      const runResp = await fetch('/run-script', { cache: 'no-store', headers });
       const runJson = await runResp.json();
       const debugPaths = runJson?.debugPaths ?? null;
 
