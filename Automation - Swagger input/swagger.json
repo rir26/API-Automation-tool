@@ -1,94 +1,40 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "Mavim iMprove APIs",
-    "description": "The Feedback API allows users to post and retrieve feedback for a topic",
-    "version": "v1",
-    "contact": {
-      "name": "Mavim Servicedesk",
-      "url": "https://my.mavim.com",
-      "email": "servicedesk@mavim.com"
-    }
+    "title": "Mavim Manager Filtered APIs",
+    "description": "Filtered endpoints: only those GET methods accepting a single databaseId parameter, or requiring no input parameters.",
+    "version": "v1"
   },
   "servers": [
     {
-      "url": "https://dev-api.mavimcloud.com/feedback/v1"
+      "url": "https://dev-api.mavimcloud.com/connectread/v2"
     }
   ],
   "paths": {
-    "/databases/{dbId}/feedback": {
+    "/databases/{databaseId}/users": {
       "get": {
-        "tags": ["Feedback"],
-        "summary": "Get feedback",
-        "description": "Get topic feedback for a user or all topic feedback for an admin. Optional pagination query parameters supported.",
+        "tags": ["Databases"],
+        "summary": "Gets all users with access to the database",
         "parameters": [
           {
-            "name": "dbId",
+            "name": "databaseId",
             "in": "path",
             "required": true,
-            "description": "The database ID of the topic containing the feedback",
+            "description": "GUID of the required database.",
             "schema": {
               "type": "string",
               "format": "uuid"
-            }
-          },
-          {
-            "name": "topicId",
-            "in": "body",
-            "required": false,
-            "description": "The ID of the topic",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "index",
-            "in": "query",
-            "required": false,
-            "description": "Page number for pagination",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "range",
-            "in": "query",
-            "required": false,
-            "description": "Page size for pagination",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Successful response",
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/IFeedback"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid topic ID",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Feedback not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/IUser" }
                 }
               }
             }
@@ -96,38 +42,204 @@
         }
       }
     },
-    "/databases/{dbId}/feedback/count": {
+    "/databases/{databaseId}/groups": {
       "get": {
-        "tags": ["Feedback"],
-        "summary": "Get feedback count",
-        "description": "Get feedback count created by the requesting user filtered by topic Id if provided. If the requesting user is an admin, get feedback count created by all users filtered by topic Id if provided.",
+        "tags": ["Databases"],
+        "summary": "Gets all groups with access rights to the database",
         "parameters": [
           {
-            "name": "dbId",
-            "in": "query",
-            "description": "The database Id of the topic containing the feedback",
+            "name": "databaseId",
+            "in": "path",
             "required": true,
+            "description": "GUID of the required database.",
             "schema": {
               "type": "string",
               "format": "uuid"
             }
-          },
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/IGroup" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/databases/{databaseId}/users/me/groups": {
+      "get": {
+        "tags": ["Databases"],
+        "summary": "Gets the groups you're a member of with access rights to the database",
+        "parameters": [
           {
-            "name": "topicId",
-            "in": "query",
-            "description": "The Id of the topic containing the feedback",
+            "name": "databaseId",
+            "in": "path",
+            "required": true,
+            "description": "GUID of the required database.",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
         "responses": {
-          "400": {
-            "description": "Invalid topic Id",
+          "200": {
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/IGroup" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/applications/me": {
+      "get": {
+        "tags": ["Applications"],
+        "summary": "Get information about yourself",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/IApplication" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/databases": {
+      "get": {
+        "tags": ["Databases"],
+        "summary": "Gets a list of all databases your company owns",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/IDatabaseShort" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/groups": {
+      "get": {
+        "tags": ["Groups"],
+        "summary": "Gets all groups that belong to your company",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/IGroup" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me": {
+      "get": {
+        "tags": ["Me"],
+        "summary": "Get information about yourself",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/IClient" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get all users in your company",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/IUser" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/company": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Gets information about your company",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ICompany" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/groups": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Gets all groups you're a member of",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/IGroup" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/databases": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Gets all databases you have access to",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/IDatabaseShort" }
                 }
               }
             }
@@ -138,21 +250,72 @@
   },
   "components": {
     "schemas": {
-      "IFeedback": {
+      "IDatabaseShort": {
         "type": "object",
         "properties": {
-          "feedbackId": { "type": "string" },
-          "topicId": { "type": "string" },
-          "userId": { "type": "string" },
-          "comments": { "type": "string" },
-          "createdAt": { "type": "string", "format": "date-time" }
+          "databaseID": {"type": "string", "format": "uuid"},
+          "displayName": {"type": "string", "nullable": true},
+          "companyId": {"type": "string", "format": "uuid"},
+          "isPrivate": {"type": "boolean"},
+          "primaryRegion": {"type": "string", "nullable": true}
         }
       },
-      "ErrorResponse": {
+      "IApplication": {
         "type": "object",
         "properties": {
-          "error": { "type": "string" },
-          "message": { "type": "string" }
+          "appId": {"type": "string", "format": "uuid"},
+          "objectId": {"type": "string", "format": "uuid"},
+          "id": {"type": "string", "format": "uuid"},
+          "sub": {"type": "string", "nullable": true},
+          "created": {"type": "string", "format": "date-time"},
+          "groups": {"type": "array", "items": {"type": "string", "format": "uuid"}, "nullable": true},
+          "companyId": {"type": "string", "format": "uuid"}
+        }
+      },
+      "IClient": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string", "format": "uuid"},
+          "sub": {"type": "string", "nullable": true},
+          "created": {"type": "string", "format": "date-time"},
+          "groups": {"type": "array", "items": {"type": "string", "format": "uuid"}, "nullable": true},
+          "companyId": {"type": "string", "format": "uuid"}
+        }
+      },
+      "ICompany": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string", "format": "uuid"},
+          "name": {"type": "string", "nullable": true},
+          "domain": {"type": "string", "nullable": true},
+          "issuers": {"type": "array", "items": {"type": "string"}, "nullable": true},
+          "tenantId": {"type": "string", "format": "uuid"},
+          "disabled": {"type": "boolean"},
+          "exactId": {"type": "integer", "format": "int32", "nullable": true}
+        }
+      },
+      "IGroup": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string", "format": "uuid"},
+          "name": {"type": "string", "nullable": true},
+          "description": {"type": "string", "nullable": true},
+          "companyId": {"type": "string", "format": "uuid"},
+          "databaseId": {"type": "string", "format": "uuid", "nullable": true},
+          "users": {"type": "array", "items": {"type": "string", "format": "uuid"}, "nullable": true}
+        }
+      },
+      "IUser": {
+        "type": "object",
+        "properties": {
+          "email": {"type": "string", "nullable": true},
+          "firstName": {"type": "string", "nullable": true},
+          "lastName": {"type": "string", "nullable": true},
+          "id": {"type": "string", "format": "uuid"},
+          "sub": {"type": "string", "nullable": true},
+          "created": {"type": "string", "format": "date-time"},
+          "groups": {"type": "array", "items": {"type": "string", "format": "uuid"}, "nullable": true},
+          "companyId": {"type": "string", "format": "uuid"}
         }
       }
     }
