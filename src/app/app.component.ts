@@ -16,6 +16,8 @@ export class AppComponent {
   swaggerContent?: string;
   paramsContent?: string;
   apiResponse?: any;
+  apiPassedCount: number = 0;
+  apiFailedCount: number = 0;
 
   onSwaggerImported(content: string) {
     this.swaggerContent = content;
@@ -50,6 +52,7 @@ export class AppComponent {
         if (logsResp.ok) {
           const logsJson = await logsResp.json();
           this.apiResponse = { log: logsJson, debugPaths, source: 'logFile' };
+          this.updateCountsFromLog(logsJson);
           return;
         }
       } catch (e) {
@@ -59,13 +62,17 @@ export class AppComponent {
       // Fallback to whatever /run-script returned
       if (runJson?.success && runJson?.source === 'logFile' && runJson?.log) {
         this.apiResponse = { log: runJson.log, debugPaths, source: runJson.source };
+        this.updateCountsFromLog(runJson.log);
       } else if (runJson?.success && runJson?.stdout) {
         this.apiResponse = { status: 'done', raw: runJson.stdout, debugPaths };
+        this.resetCounts();
       } else {
         this.apiResponse = { payload: runJson, debugPaths };
+        this.resetCounts();
       }
     } catch (err) {
       this.apiResponse = { status: 'error', error: String(err) };
+      this.resetCounts();
     }
   }
 
@@ -75,8 +82,37 @@ export class AppComponent {
       if (!resp.ok) throw new Error(`Failed to fetch logs (${resp.status})`);
       const json = await resp.json();
       this.apiResponse = { log: json, debugPaths: null, source: 'logFile' };
+      this.updateCountsFromLog(json);
     } catch (err) {
       this.apiResponse = { status: 'error', error: String(err) };
+      this.resetCounts();
     }
+  }
+
+  updateCountsFromLog(log: any) {
+    try {
+      if (!Array.isArray(log)) {
+        // Some logs may wrap the array, try to find it
+  const entries = log?.['entries'];
+  const logsArr = log?.['logs'];
+        if (Array.isArray(entries)) log = entries;
+        else if (Array.isArray(logsArr)) log = logsArr;
+      }
+      if (!Array.isArray(log)) {
+        this.resetCounts();
+        return;
+      }
+      // Count success vs failures. Use `success` boolean when available.
+  this.apiPassedCount = log.filter((e: any) => e?.success === true).length;
+  this.apiFailedCount = log.filter((e: any) => e?.success !== true).length;
+    } catch (e) {
+      console.debug('Failed to compute counts from log', e);
+      this.resetCounts();
+    }
+  }
+
+  resetCounts() {
+    this.apiPassedCount = 0;
+    this.apiFailedCount = 0;
   }
 }

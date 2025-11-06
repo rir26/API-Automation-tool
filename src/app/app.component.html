@@ -15,6 +15,7 @@
       <input id="bearerInput" type="password" [(ngModel)]="bearerToken" placeholder="Paste bearer token"/>
       <small style="color:#777;">We never store this token; it's used only for this run.</small>
     </div>
+    <!-- counts moved to response terminal top-right -->
     <div style="margin-top:20px; display:flex; gap:8px; align-items:center;">
       <button
         (click)="runTests()"
@@ -29,7 +30,14 @@
       </span>
     </div>
   </div>
-  <div style="flex:1;">
+  <div style="flex:1; position:relative;">
+    <div style="position:absolute; top:8px; right:12px; z-index:20; display:flex; gap:8px; align-items:center; background:rgba(255,255,255,0.9); padding:6px 10px; border-radius:6px; box-shadow:0 2px 6px rgba(0,0,0,0.15);">
+      <div style="font-weight:600; font-size:13px; color:#333;">APIs</div>
+      <div>
+        <span style="color:green; font-weight:600;">Passed: {{apiPassedCount}}</span>
+        <span style="margin-left:10px; color:red; font-weight:600;">Failed: {{apiFailedCount}}</span>
+      </div>
+    </div>
     <app-response-terminal [response]="apiResponse"></app-response-terminal>
   </div>
 </div>
