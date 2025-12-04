@@ -1,4 +1,6 @@
 {
-  "dbId":   "d9c3aa32-aaa9-4804-820b-0c137a696dc9",
-  "topicId":"d16730231c117965v0"
+  "permissionId": "6d17e43f-fbff-4ec3-ba1b-c2fea4673f3f",
+  "roleId": "89303438-fe80-426d-8753-03e89ce6863e",
+  "rawBodyFile": "raw-body.json",
+  "rawContentType": "application/json"
 }
